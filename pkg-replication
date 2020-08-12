@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PORT=22
+
+die() { echo "$*" 1>&2 ; exit 1; }
+
+if [ -z $1 ]
+        then
+                die "Please specify a username"
+elif [ -z $2 ]
+        then
+                die "Please specify an IP address"
+fi
+
+if [ -z "$3" ]
+        then
+                echo "No port specified, using 22"
+else
+                PORT=$3
+fi
+
+PKG_LIST="$(pkg prime-list)"
+
+
+ssh $1@$2 -p $PORT "echo \"$PKG_LIST\" > pkg-replication.txt"
